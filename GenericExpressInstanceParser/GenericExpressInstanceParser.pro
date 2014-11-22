@@ -26,7 +26,7 @@ bison.commands = bison -o ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN}
 bison.input = BISON_PARSER_NAME
 bison.output = ExpressInstanceParser.cpp
 bison.variable_out = SOURCES
-bison.depends = ExpressInstanceParser.y
+bison.depends = ../GenericExpressInstanceParser/ExpressInstanceParser.y
 bison.CONFIG += target_predeps
 QMAKE_EXTRA_COMPILERS += bison
 
@@ -37,7 +37,7 @@ flex.commands = flex --outfile=${QMAKE_FILE_OUT} -+ ${QMAKE_FILE_IN}
 flex.input = FLEX_SCANNER_NAME
 flex.output = ExpressInstanceScanner.cpp
 flex.variable_out = SOURCES
-flex.depends = ExpressInstanceScanner.l ExpressInstanceScanner.h
+flex.depends = ../GenericExpressInstanceParser/ExpressInstanceScanner.l ../GenericExpressInstanceParser/ExpressInstanceScanner.h
 flex.CONFIG += target_predeps
 QMAKE_EXTRA_COMPILERS += flex
 
