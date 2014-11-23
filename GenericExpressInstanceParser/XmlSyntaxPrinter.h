@@ -7,7 +7,7 @@
 #include "GenericExpressInstanceParser_Global.h"
 #include "ExpressInstanceVisitor.h"
 
-namespace exp {
+namespace geip {
 
 class GENERIC_EXPRESS_INSTANCE_PARSER_SHARED_EXPORT XmlSyntaxPrinter : public ExpressInstanceVisitor
 {
@@ -34,6 +34,6 @@ private:
     std::ostream& m_ofstream;
 };
 
-} //exp
+} //geip
 
 #endif //XML_SYNTAX_PRINTER_H

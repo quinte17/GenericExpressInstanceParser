@@ -1,5 +1,5 @@
 #include "ExpressInstanceVisitor.h"
 
-namespace exp {
+namespace geip {
 
-} //exp
+} //geip

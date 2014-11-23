@@ -2,7 +2,7 @@
 %require "3.0"
 %debug
 %defines
-%define api.namespace {exp}
+%define api.namespace {geip}
 %define parser_class_name {ExpressInstanceParser}
 %language "C++"
 %locations
@@ -18,7 +18,7 @@
     #include "GenericExpressInstanceParser.h"
 
     //forward declaration
-    namespace exp{
+    namespace geip{
         class ExpressInstanceScanner;
     }
 }
@@ -32,10 +32,10 @@
 
 %code{
 /* this is silly, but I can't figure out a way around */
-static int yylex(exp::ExpressInstanceParser::semantic_type* yylval,
-                 exp::ExpressInstanceParser::location_type* loc,
-                 exp::ExpressInstanceScanner& scanner,
-                 exp::GenericExpressInstanceParser& parser
+static int yylex(geip::ExpressInstanceParser::semantic_type* yylval,
+                 geip::ExpressInstanceParser::location_type* loc,
+                 geip::ExpressInstanceScanner& scanner,
+                 geip::GenericExpressInstanceParser& parser
                 );
 static void printDebug(const std::string& debug);
 }
@@ -43,17 +43,17 @@ static void printDebug(const std::string& debug);
 //token types
 %union {
     std::string* sval;
-    exp::ExpressInstance* instance;
-    exp::StringInstance* string;
-    exp::EnumInstance* enumInstance;
-    exp::BooleanInstance* booleanInstance;
-    exp::IntegerInstance* integerInstance;
-    exp::RealInstance* realInstance;
-    exp::AttributeInstance* attribute;
-    exp::EntityInstance* entity;
+    geip::ExpressInstance* instance;
+    geip::StringInstance* string;
+    geip::EnumInstance* enumInstance;
+    geip::BooleanInstance* booleanInstance;
+    geip::IntegerInstance* integerInstance;
+    geip::RealInstance* realInstance;
+    geip::AttributeInstance* attribute;
+    geip::EntityInstance* entity;
 
-    std::list<exp::ExpressInstance*>* instances;
-    std::list<exp::EntityInstance*>* entities;
+    std::list<geip::ExpressInstance*>* instances;
+    std::list<geip::EntityInstance*>* entities;
 }
 
 %type <instance> instance;
@@ -117,7 +117,7 @@ instance
     ;
 %%
 
-namespace exp{
+namespace geip{
     void ExpressInstanceParser::error(const location_type& loc, const std::string& msg)
     {
         std::cerr << "Error: " << msg << "\n";
@@ -127,10 +127,10 @@ namespace exp{
 #include "ExpressInstanceScanner.h"
 #include "ExpressInstanceParser.hpp"
 
-static int yylex(exp::ExpressInstanceParser::semantic_type* yylval,
-                 exp::ExpressInstanceParser::location_type* loc,
-                 exp::ExpressInstanceScanner& scanner,
-                 exp::GenericExpressInstanceParser& parser
+static int yylex(geip::ExpressInstanceParser::semantic_type* yylval,
+                 geip::ExpressInstanceParser::location_type* loc,
+                 geip::ExpressInstanceScanner& scanner,
+                 geip::GenericExpressInstanceParser& parser
                 )
 {
     Q_UNUSED(parser);

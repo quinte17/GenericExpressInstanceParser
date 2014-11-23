@@ -4,7 +4,7 @@
 
 #include "ExpressTypes.h"
 
-namespace exp {
+namespace geip {
 
 ExpressSyntaxPrinter::ExpressSyntaxPrinter(std::ostream & _ofstream)
     : m_depth(0)
@@ -15,7 +15,7 @@ ExpressSyntaxPrinter::ExpressSyntaxPrinter(std::ostream & _ofstream)
 
 void ExpressSyntaxPrinter::print(std::list<EntityInstance *> entities)
 {
-    std::list<exp::EntityInstance*>::const_iterator iterator = entities.begin();
+    std::list<geip::EntityInstance*>::const_iterator iterator = entities.begin();
     for(; iterator != entities.end(); ++iterator){
         (*iterator)->visit(*this);
         m_ofstream << std::endl;
@@ -100,4 +100,4 @@ void ExpressSyntaxPrinter::visit(const EntityInstance * instance)
     visitChilds(instance, "(", ")");
 }
 
-} //exp
+} //geip

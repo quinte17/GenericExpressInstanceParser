@@ -6,7 +6,7 @@
 
 #include "ExpressInstanceScanner.h"
 
-namespace exp {
+namespace geip {
 
 GenericExpressInstanceParser::GenericExpressInstanceParser()
 {
@@ -22,8 +22,8 @@ std::list<EntityInstance *> GenericExpressInstanceParser::parse(std::istream* _i
 {
     m_entities.clear();
 
-    exp::ExpressInstanceScanner scanner(_inputStream);
-    exp::ExpressInstanceParser parser(scanner, *this);
+    geip::ExpressInstanceScanner scanner(_inputStream);
+    geip::ExpressInstanceParser parser(scanner, *this);
     parser.parse();
 
     return m_entities;
@@ -34,4 +34,4 @@ void GenericExpressInstanceParser::addRootEntity(EntityInstance* _entity)
     m_entities.push_back(_entity);
 }
 
-} //exp
+} //geip

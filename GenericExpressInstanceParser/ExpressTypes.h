@@ -6,7 +6,7 @@
 
 #include "GenericExpressInstanceParser_Global.h"
 
-namespace exp {
+namespace geip {
 
 //forward declaration
 class ExpressInstanceVisitor;
@@ -132,6 +132,6 @@ public:
 };
 
 
-} //exp
+} //geip
 
 #endif //EXPRESS_TYPES_H

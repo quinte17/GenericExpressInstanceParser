@@ -11,7 +11,7 @@
 #include "ExpressInstanceParser.hpp"
 
 /* typedef to make the returns for the tokens shorter */
-typedef exp::ExpressInstanceParser::token token;
+typedef geip::ExpressInstanceParser::token token;
 
 /* define yyterminate as this instead of NULL */
 //#define yyterminate() return( 0 )

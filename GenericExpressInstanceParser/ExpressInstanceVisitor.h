@@ -3,7 +3,7 @@
 
 #include "GenericExpressInstanceParser_Global.h"
 
-namespace exp {
+namespace geip {
 
 //forward declarations
 class ExpressInstance;
@@ -27,6 +27,6 @@ public:
     virtual void visit(const EntityInstance* instance) = 0;
 };
 
-} //exp
+} //geip
 
 #endif //EXPRESS_INSTANCE_VISITOR_H

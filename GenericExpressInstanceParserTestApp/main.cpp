@@ -9,9 +9,9 @@
 #include <fstream>
 #include <iostream>
 
-std::list<exp::EntityInstance*> parseEntitiesInMemory()
+std::list<geip::EntityInstance*> parseEntitiesInMemory()
 {
-    exp::GenericExpressInstanceParser parser;
+    geip::GenericExpressInstanceParser parser;
 
     std::stringstream instances;
     instances << "Entity()";
@@ -33,15 +33,14 @@ std::list<exp::EntityInstance*> parseEntitiesInMemory()
     instances << "StringList (elements:= [\"element 1\",\"element 2\"])";
     instances << "User(name:=\"aaä\")";
 
-
-    std::list<exp::EntityInstance*> entities = parser.parse(instances.str());
+    std::list<geip::EntityInstance*> entities = parser.parse(instances.str());
 
     return entities;
 }
 
-std::list<exp::EntityInstance*> parseEntitiesFromFile(const std::string& fileName)
+std::list<geip::EntityInstance*> parseEntitiesFromFile(const std::string& fileName)
 {
-    exp::GenericExpressInstanceParser parser;
+    geip::GenericExpressInstanceParser parser;
 
     std::ifstream inputFile;
     inputFile.open(fileName.c_str());
@@ -51,7 +50,7 @@ std::list<exp::EntityInstance*> parseEntitiesFromFile(const std::string& fileNam
     }
 
     //parsing
-    std::list<exp::EntityInstance*> entities = parser.parse(&inputFile);
+    std::list<geip::EntityInstance*> entities = parser.parse(&inputFile);
 
     return entities;
 }
@@ -62,10 +61,10 @@ int main(int argc, char *argv[])
     Q_UNUSED(argv);
 
     //parsing
-    //std::list<exp::EntityInstance*> entities = parseEntitiesInMemory();
+    //std::list<geip::EntityInstance*> entities = parseEntitiesInMemory();
 
     std::string fileName = std::string(SRCDIR) + "/example_instances_01.txt";
-    std::list<exp::EntityInstance*> entities = parseEntitiesFromFile(fileName);
+    std::list<geip::EntityInstance*> entities = parseEntitiesFromFile(fileName);
 
     //printing
     std::ofstream outputFile;
@@ -75,17 +74,17 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    exp::ExpressSyntaxPrinter printer(outputFile);
+    geip::ExpressSyntaxPrinter printer(outputFile);
     printer.print(entities);
-    exp::XmlSyntaxPrinter xmlPrinter(std::cout);
+    geip::XmlSyntaxPrinter xmlPrinter(std::cout);
     xmlPrinter.print(entities);
 
     outputFile.close();
 
     //delete entities
-    std::list<exp::EntityInstance*>::iterator iterator = entities.begin();
+    std::list<geip::EntityInstance*>::iterator iterator = entities.begin();
     for(; iterator != entities.end(); ++iterator){
-        exp::EntityInstance* entity = *iterator;
+        geip::EntityInstance* entity = *iterator;
         delete entity;
     }
     entities.clear();

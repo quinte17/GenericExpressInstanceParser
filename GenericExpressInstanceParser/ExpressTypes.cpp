@@ -4,7 +4,7 @@
 
 #include "ExpressInstanceVisitor.h"
 
-namespace exp {
+namespace geip {
 
 ExpressInstance::ExpressInstance(const ExpressInstance::InstanceType & _type, std::string* _name)
     : m_type(_type)
@@ -235,7 +235,7 @@ std::string AttributeInstance::name() const
     return *m_name;
 }
 
-exp::AttributeInstance::AttributeType AttributeInstance::attributeType() const
+geip::AttributeInstance::AttributeType AttributeInstance::attributeType() const
 {
     return m_attributeType;
 }
@@ -328,4 +328,4 @@ void EntityInstance::visit(ExpressInstanceVisitor & visitor) const
 
 
 
-} //exp
+} //geip

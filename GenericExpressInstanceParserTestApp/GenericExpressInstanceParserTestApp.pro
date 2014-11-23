@@ -13,15 +13,15 @@ CONFIG   += console
 CONFIG   -= app_bundle
 
 TEMPLATE = app
-debug {
+CONFIG(debug, debug|release) {
     DESTDIR = ../debug/bin
     OBJECTS_DIR = ../debug/objects
 }
 
-#release {
-#    DESTDIR = ../release/bin
-#    OBJECTS_DIR = ../release/objects
-#}
+CONFIG(release, debug|release) {
+    DESTDIR = ../release/bin
+    OBJECTS_DIR = ../release/objects
+}
 
 SOURCES += main.cpp
 

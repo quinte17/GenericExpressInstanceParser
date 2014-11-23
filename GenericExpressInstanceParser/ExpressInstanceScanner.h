@@ -6,11 +6,11 @@
 #endif
 
 #undef YY_DECL
-#define YY_DECL int exp::ExpressInstanceScanner::yylex()
+#define YY_DECL int geip::ExpressInstanceScanner::yylex()
 
 #include "ExpressInstanceParser.hpp"
 
-namespace exp{
+namespace geip{
 
 class ExpressInstanceScanner : public yyFlexLexer
 {
@@ -29,7 +29,7 @@ public:
 //        return wordCount;
 //    }
 
-    int yylex(exp::ExpressInstanceParser::semantic_type* _yylval)
+    int yylex(geip::ExpressInstanceParser::semantic_type* _yylval)
     {
         m_yylval = _yylval;
         return yylex();
@@ -38,9 +38,9 @@ public:
 private:
     virtual int yylex(); //disable it
     /* yyval ptr */
-    exp::ExpressInstanceParser::semantic_type* m_yylval;
+    geip::ExpressInstanceParser::semantic_type* m_yylval;
 };
 
-} //exp
+} //geip
 
 #endif // EXPRESS_INSTANCE_SCANNER_H

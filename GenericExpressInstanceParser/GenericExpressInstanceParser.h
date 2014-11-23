@@ -7,7 +7,7 @@
 #include "GenericExpressInstanceParser_Global.h"
 #include "ExpressTypes.h"
 
-namespace exp {
+namespace geip {
 
 class GENERIC_EXPRESS_INSTANCE_PARSER_SHARED_EXPORT GenericExpressInstanceParser
 {
@@ -25,6 +25,6 @@ private:
     std::list<EntityInstance*> m_entities;
 };
 
-} //exp
+} //geip
 
 #endif //GENERIC_EXPRESS_INSTANCE_PARSER_H

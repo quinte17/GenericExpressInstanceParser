@@ -2,7 +2,7 @@
 
 #include "ExpressTypes.h"
 
-namespace exp {
+namespace geip {
 
 XmlSyntaxPrinter::XmlSyntaxPrinter(std::ostream & _ofstream)
     : m_depth(0)
@@ -16,7 +16,7 @@ void XmlSyntaxPrinter::print(std::list<EntityInstance *> entities)
     m_ofstream << "<entities>";
     m_ofstream << std::endl;
     ++m_depth;
-    std::list<exp::EntityInstance*>::const_iterator iterator = entities.begin();
+    std::list<geip::EntityInstance*>::const_iterator iterator = entities.begin();
     for(; iterator != entities.end(); ++iterator){
         (*iterator)->visit(*this);
     }
@@ -111,4 +111,4 @@ void XmlSyntaxPrinter::visit(const EntityInstance * instance)
     m_ofstream << std::endl;
 }
 
-} //exp
+} //geip
