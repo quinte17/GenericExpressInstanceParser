@@ -39,11 +39,23 @@ void BenchmarkTestCase::cleanup()
 
 }
 
+void BenchmarkTestCase::benchmark_parsing_data()
+{
+    QTest::addColumn<int>("loopCount");
+
+    QTest::newRow(".") << 1;
+    QTest::newRow("..") << 10;
+    QTest::newRow("...") << 100;
+    QTest::newRow("....") << 1000;
+}
+
 void BenchmarkTestCase::benchmark_parsing()
 {
+    QFETCH(int, loopCount);
+
     //init test data set
     std::stringstream instances;
-    for(int i = 0; i < 10; ++i){
+    for(int i = 0; i < loopCount; ++i){
         instances << "Entity()";
         instances << "Entity ( ) Entity()";
         instances << "EnumType(type := USER)";
@@ -66,6 +78,12 @@ void BenchmarkTestCase::benchmark_parsing()
 
     QBENCHMARK {
         std::list<geip::EntityInstance*> entities = m_parser->parse(instances.str());
+
+        foreach (geip::EntityInstance* entity, entities) {
+            delete entity;
+        }
+
+        entities.clear();
     }
 
 }

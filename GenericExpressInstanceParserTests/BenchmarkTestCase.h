@@ -25,6 +25,7 @@ private slots:
 
     //benchmark functions
 private slots:
+    void benchmark_parsing_data();
     void benchmark_parsing();
 
 private:
