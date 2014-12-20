@@ -65,11 +65,8 @@ std::list<geip::EntityInstance*> parseEntitiesFromFile(const std::string& fileNa
     return entities;
 }
 
-int main(int argc, char *argv[])
+void scanParameters(int argc, char *argv[])
 {
-    //parsing
-    //std::list<geip::EntityInstance*> entities = parseEntitiesInMemory();
-
     for(int i = 1; i < argc; i++) {
         // scan arguments
         // -i inputFile
@@ -125,9 +122,17 @@ int main(int argc, char *argv[])
             std::cerr << "       x    for xml output" << std::endl;
             std::cerr << "       e    for expressinstance output" << std::endl;
             std::cerr << std::endl;
-            return 1;
+            exit(1);
         }
     }
+}
+
+int main(int argc, char *argv[])
+{
+    //parsing
+    //std::list<geip::EntityInstance*> entities = parseEntitiesInMemory();
+
+    scanParameters(argc, argv);
 
     std::list<geip::EntityInstance*> entities;
 
