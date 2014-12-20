@@ -67,9 +67,6 @@ std::list<geip::EntityInstance*> parseEntitiesFromFile(const std::string& fileNa
 
 int main(int argc, char *argv[])
 {
-    Q_UNUSED(argc);
-    Q_UNUSED(argv);
-
     //parsing
     //std::list<geip::EntityInstance*> entities = parseEntitiesInMemory();
 
