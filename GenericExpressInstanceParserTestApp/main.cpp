@@ -63,8 +63,8 @@ int main(int argc, char *argv[])
     //parsing
     //std::list<geip::EntityInstance*> entities = parseEntitiesInMemory();
 
-    std::string fileName = std::string(SRCDIR) + "/example_instances_01.txt";
-    std::list<geip::EntityInstance*> entities = parseEntitiesFromFile(fileName);
+    std::string inputFileName = std::string(SRCDIR) + "/example_instances_01.txt";
+    std::list<geip::EntityInstance*> entities = parseEntitiesFromFile(inputFileName);
 
     //printing
     std::ofstream outputFile;
