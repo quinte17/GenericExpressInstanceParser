@@ -126,6 +126,10 @@ string       \"(\\.|[^\\"])*\"
 "."            {
                     //return token::UNKNOWN;
                }
+.              {
+                    printf("bad input character '%s'\n", yytext);
+                    exit(1);
+               }
 
 %%
 
