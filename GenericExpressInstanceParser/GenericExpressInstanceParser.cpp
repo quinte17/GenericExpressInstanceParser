@@ -24,7 +24,8 @@ std::list<EntityInstance *> GenericExpressInstanceParser::parse(std::istream* _i
 
     geip::ExpressInstanceScanner scanner(_inputStream);
     geip::ExpressInstanceParser parser(scanner, *this);
-    parser.parse();
+    if(parser.parse() != 0)
+        exit(1);
 
     return m_entities;
 }
