@@ -123,9 +123,6 @@ string       \"(\\.|[^\\"])*\"
                     //we are not interested in white spaces...
                }
 
-"."            {
-                    //return token::UNKNOWN;
-               }
 .              {
                     printf("bad input character '%s'\n", yytext);
                     exit(1);
