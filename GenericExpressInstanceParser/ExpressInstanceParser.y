@@ -4,6 +4,7 @@
 %defines
 %define api.namespace {geip}
 %define parser_class_name {ExpressInstanceParser}
+%define parse.error verbose
 %language "C++"
 %locations
 
