@@ -63,6 +63,30 @@ int main(int argc, char *argv[])
     //parsing
     //std::list<geip::EntityInstance*> entities = parseEntitiesInMemory();
 
+    for(int i = 1; i < argc; i++) {
+        // scan arguments
+        // -i inputFile
+        // -o outputFile
+        // --help
+        // -h
+        std::string parameter = std::string(argv[i]);
+        bool unknownParameter = false;
+        if(parameter == "-i") {
+
+        } else if (parameter == "-o") {
+
+        } else {
+            unknownParameter = true;
+        }
+        if(parameter == "--help" || parameter == "-h" || unknownParameter) {
+            std::cerr << "Usage:" << std::endl;
+            std::cerr << std::string(argv[0]) << " [-i inputFile] [-o outputFile]" << std::endl;
+            std::cerr << "   if inputFile is omited then stdin is used." << std::endl;
+            std::cerr << "   if outputFile is omited then stdout is used." << std::endl;
+            return 1;
+        }
+    }
+
     std::string inputFileName = std::string(SRCDIR) + "/example_instances_01.txt";
     std::list<geip::EntityInstance*> entities = parseEntitiesFromFile(inputFileName);
 
