@@ -9,6 +9,16 @@
 #include <fstream>
 #include <iostream>
 
+namespace config {
+    std::string inputFileName = "";
+    std::string outputFileName = "";
+    enum outputDialect { // missing c++11 atm
+        XML,
+        EINST
+    };
+    outputDialect outputFileType = XML; // missing c++11 atm
+}
+
 std::list<geip::EntityInstance*> parseEntitiesInMemory()
 {
     geip::GenericExpressInstanceParser parser;
@@ -70,40 +80,97 @@ int main(int argc, char *argv[])
         // --help
         // -h
         std::string parameter = std::string(argv[i]);
-        bool unknownParameter = false;
+        bool showHelp = false;
         if(parameter == "-i") {
-
+            if(argc <= i+1) {
+                showHelp = true;
+            } else {
+                config::inputFileName = argv[i+1];
+                i++; // skip next parameter in loop
+            }
         } else if (parameter == "-o") {
-
-        } else {
-            unknownParameter = true;
+            if(argc <= i+1) {
+                showHelp = true;
+            } else {
+                config::outputFileName = argv[i+1];
+                i++; // skip next parameter in loop
+            }
+        } else if (parameter == "-t") {
+            // type of output default xml
+            if(argc <= i+1) {
+                showHelp = true;
+            } else {
+                std::string type = argv[i+1];
+                if(type == "e") {
+                    config::outputFileType = config::EINST; // missing c++11 atm
+                } else if (type == "x") {
+                    config::outputFileType = config::XML; // missing c++11 atm
+                } else {
+                    // unknown type
+                    showHelp = true;
+                }
+                i++; // skip next parameter in loop
+            }
         }
-        if(parameter == "--help" || parameter == "-h" || unknownParameter) {
+        else if (parameter == "--help" || parameter == "-h") {
+            showHelp = true;
+        } else {
+            // unkown Parameter
+            std::cerr << "Unknown Parameter: " << parameter << std::endl << std::endl;
+            showHelp = true;
+        }
+        if(showHelp) {
             std::cerr << "Usage:" << std::endl;
-            std::cerr << std::string(argv[0]) << " [-i inputFile] [-o outputFile]" << std::endl;
+            std::cerr << std::string(argv[0]) << " [-i inputFile] [-o outputFile] [-t TYPE]" << std::endl;
             std::cerr << "   if inputFile is omited then stdin is used." << std::endl;
             std::cerr << "   if outputFile is omited then stdout is used." << std::endl;
+            std::cerr << "   TYPE is:" << std::endl;
+            std::cerr << "       x    for xml output" << std::endl;
+            std::cerr << "       e    for expressinstance output" << std::endl;
+            std::cerr << std::endl;
             return 1;
         }
     }
 
-    std::string inputFileName = std::string(SRCDIR) + "/example_instances_01.txt";
-    std::list<geip::EntityInstance*> entities = parseEntitiesFromFile(inputFileName);
+    std::list<geip::EntityInstance*> entities;
 
-    //printing
-    std::ofstream outputFile;
-    outputFile.open("test.txt");
-    if(!outputFile.is_open()){
-        std::cout << "error opening input file";
-        return 1;
+    // Handle inputFile and parse it.
+    if(config::inputFileName == "") {
+        // use stdin
+        geip::GenericExpressInstanceParser parser;
+        entities = parser.parse(&std::cin);
+    }
+    else {
+        entities = parseEntitiesFromFile(config::inputFileName);
     }
 
-    geip::ExpressSyntaxPrinter printer(outputFile);
-    printer.print(entities);
-    geip::XmlSyntaxPrinter xmlPrinter(std::cout);
-    xmlPrinter.print(entities);
+    // Handle outputFile.
+    std::ostream *output;
+    std::ofstream outputFile;
+    if(config::outputFileName == "") {
+        // use stdout
+        output = &std::cout;
+    } else {
+        outputFile.open(config::outputFileName.c_str()); // missing c++11 atm
+        if(!outputFile.is_open()){
+            std::cerr << "error opening ouput file";
+            return 1;
+        }
+        output = &outputFile;
+    }
 
-    outputFile.close();
+    // Handle printing
+    if(config::outputFileType == config::XML) { // missing c++11 atm
+        geip::XmlSyntaxPrinter xmlPrinter(*output);
+        xmlPrinter.print(entities);
+    } else if(config::outputFileType == config::EINST) { // missing c++11 atm
+        geip::ExpressSyntaxPrinter printer(*output);
+        printer.print(entities);
+    }
+
+    // Close outfile
+    if(outputFile.is_open())
+        outputFile.close();
 
     //delete entities
     std::list<geip::EntityInstance*>::iterator iterator = entities.begin();
