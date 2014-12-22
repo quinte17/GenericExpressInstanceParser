@@ -10,7 +10,7 @@
 #include <iostream>
 
 namespace config {
-    enum outputDialect { // missing c++11 atm
+    enum OutputDialect { // missing c++11 atm
         XML,
         EINST
     };
@@ -19,7 +19,7 @@ namespace config {
     public:
         std::string inputFileName;
         std::string outputFileName;
-        outputDialect outputFileType;
+        OutputDialect outputFileType;
 
         Config() {
             inputFileName = "";
@@ -75,6 +75,7 @@ std::list<geip::EntityInstance*> parseEntitiesFromFile(const std::string& fileNa
     return entities;
 }
 
+// qt:qcommandlineparser
 config::Config scanParameters(int argc, char *argv[])
 {
     config::Config tmpconfig = config::Config();
@@ -169,7 +170,7 @@ int main(int argc, char *argv[])
         outputFile.open(lconfig.outputFileName.c_str()); // missing c++11 atm
         if(!outputFile.is_open()){
             std::cerr << "error opening ouput file";
-            return 1;
+            exit(EXIT_FAILURE);
         }
         output = &outputFile;
     }
@@ -195,5 +196,5 @@ int main(int argc, char *argv[])
     }
     entities.clear();
 
-    return 0;
+    return EXIT_SUCCESS;
 }

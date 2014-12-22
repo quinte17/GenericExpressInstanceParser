@@ -125,7 +125,7 @@ string       \"(\\.|[^\\"])*\"
 
 .              {
                     printf("bad input character '%s'\n", yytext);
-                    exit(1);
+                    exit(EXIT_FAILURE);
                }
 
 %%
