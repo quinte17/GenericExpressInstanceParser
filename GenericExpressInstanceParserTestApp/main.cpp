@@ -10,13 +10,23 @@
 #include <iostream>
 
 namespace config {
-    std::string inputFileName = "";
-    std::string outputFileName = "";
     enum outputDialect { // missing c++11 atm
         XML,
         EINST
     };
-    outputDialect outputFileType = XML; // missing c++11 atm
+
+    class Config {
+    public:
+        std::string inputFileName;
+        std::string outputFileName;
+        outputDialect outputFileType;
+
+        Config() {
+            inputFileName = "";
+            outputFileName = "";
+            outputFileType = XML;  // missing c++11 atm
+        }
+    };
 }
 
 std::list<geip::EntityInstance*> parseEntitiesInMemory()
@@ -65,8 +75,10 @@ std::list<geip::EntityInstance*> parseEntitiesFromFile(const std::string& fileNa
     return entities;
 }
 
-void scanParameters(int argc, char *argv[])
+config::Config scanParameters(int argc, char *argv[])
 {
+    config::Config tmpconfig = config::Config();
+
     for(int i = 1; i < argc; i++) {
         // scan arguments
         // -i inputFile
@@ -79,14 +91,14 @@ void scanParameters(int argc, char *argv[])
             if(argc <= i+1) {
                 showHelp = true;
             } else {
-                config::inputFileName = argv[i+1];
+                tmpconfig.inputFileName = argv[i+1];
                 i++; // skip next parameter in loop
             }
         } else if (parameter == "-o") {
             if(argc <= i+1) {
                 showHelp = true;
             } else {
-                config::outputFileName = argv[i+1];
+                tmpconfig.outputFileName = argv[i+1];
                 i++; // skip next parameter in loop
             }
         } else if (parameter == "-t") {
@@ -96,9 +108,9 @@ void scanParameters(int argc, char *argv[])
             } else {
                 std::string type = argv[i+1];
                 if(type == "e") {
-                    config::outputFileType = config::EINST; // missing c++11 atm
+                    tmpconfig.outputFileType = config::EINST; // missing c++11 atm
                 } else if (type == "x") {
-                    config::outputFileType = config::XML; // missing c++11 atm
+                    tmpconfig.outputFileType = config::XML; // missing c++11 atm
                 } else {
                     // unknown type
                     showHelp = true;
@@ -125,6 +137,7 @@ void scanParameters(int argc, char *argv[])
             exit(1);
         }
     }
+    return tmpconfig;
 }
 
 int main(int argc, char *argv[])
@@ -132,28 +145,28 @@ int main(int argc, char *argv[])
     //parsing
     //std::list<geip::EntityInstance*> entities = parseEntitiesInMemory();
 
-    scanParameters(argc, argv);
+    config::Config lconfig = scanParameters(argc, argv);
 
     std::list<geip::EntityInstance*> entities;
 
     // Handle inputFile and parse it.
-    if(config::inputFileName == "") {
+    if(lconfig.inputFileName == "") {
         // use stdin
         geip::GenericExpressInstanceParser parser;
         entities = parser.parse(&std::cin);
     }
     else {
-        entities = parseEntitiesFromFile(config::inputFileName);
+        entities = parseEntitiesFromFile(lconfig.inputFileName);
     }
 
     // Handle outputFile.
     std::ostream *output;
     std::ofstream outputFile;
-    if(config::outputFileName == "") {
+    if(lconfig.outputFileName == "") {
         // use stdout
         output = &std::cout;
     } else {
-        outputFile.open(config::outputFileName.c_str()); // missing c++11 atm
+        outputFile.open(lconfig.outputFileName.c_str()); // missing c++11 atm
         if(!outputFile.is_open()){
             std::cerr << "error opening ouput file";
             return 1;
@@ -162,10 +175,10 @@ int main(int argc, char *argv[])
     }
 
     // Handle printing
-    if(config::outputFileType == config::XML) { // missing c++11 atm
+    if(lconfig.outputFileType == config::XML) { // missing c++11 atm
         geip::XmlSyntaxPrinter xmlPrinter(*output);
         xmlPrinter.print(entities);
-    } else if(config::outputFileType == config::EINST) { // missing c++11 atm
+    } else if(lconfig.outputFileType == config::EINST) { // missing c++11 atm
         geip::ExpressSyntaxPrinter printer(*output);
         printer.print(entities);
     }
