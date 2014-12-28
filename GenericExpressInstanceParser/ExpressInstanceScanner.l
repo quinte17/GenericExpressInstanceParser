@@ -22,7 +22,7 @@ typedef geip::ExpressInstanceParser::token token;
 
 /****************** Options ******************/
 %option debug
-%option nodefault
+%option default
 %option yyclass="ExpressInstanceScanner"
 %option noyywrap
 %option c++
@@ -31,13 +31,6 @@ typedef geip::ExpressInstanceParser::token token;
 
 /* enables the use of start condition stacks */
 %option stack
-
-/*
-character [a-zA-Z]
-digit [0-9]
-word ({character}|{digit})+
-line \n
-*/
 
 character    [a-zA-Z_]
 digit        [0-9]
@@ -54,8 +47,13 @@ newline      [\n\r]
 assign       [:]=
 comma        [,]
 string       \"(\\.|[^\\"])*\"
+comment      \(\*(.*{newline}?)*\*\)
 
 %%
+
+{comment}      {
+                   //we are not interested in comments
+               }
 
 {string}       {
                     m_yylval->sval = new std::string(yytext);
@@ -124,8 +122,9 @@ string       \"(\\.|[^\\"])*\"
                }
 
 .              {
-                    printf("bad input character '%s'\n", yytext);
-                    exit(EXIT_FAILURE);
+                    std::cerr << "Error: lexical error, bad input character '" << yytext << "'" << std::endl;
+                    m_yylval->sval = new std::string(yytext);
+                    return token::STRING;
                }
 
 %%

@@ -83,7 +83,7 @@ static void printDebug(const std::string& debug);
 %%
 
 entities
-    : entity                            {parser.addRootEntity($1);}
+    :                                   {} //empty
     | entities entity                   {parser.addRootEntity($2);}
     ;
 
@@ -122,6 +122,7 @@ namespace geip{
     void ExpressInstanceParser::error(const location_type& loc, const std::string& msg)
     {
         std::cerr << "Error: " << msg << "\n";
+        parser.setError(1, msg);
     }
 }
 

@@ -10,12 +10,12 @@ TARGET = GenericExpressInstanceParser
 TEMPLATE = lib
 CONFIG(debug, debug|release) {
     DESTDIR = ../debug/bin
-    OBJECTS_DIR = ../debug/objects
+    #OBJECTS_DIR = ../debug/objects
 }
 
 CONFIG(release, debug|release) {
     DESTDIR = ../release/bin
-    OBJECTS_DIR = ../release/objects
+    #OBJECTS_DIR = ../release/objects
 }
 
 
