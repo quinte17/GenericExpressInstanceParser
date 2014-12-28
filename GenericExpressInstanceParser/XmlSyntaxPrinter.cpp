@@ -21,7 +21,7 @@ void XmlSyntaxPrinter::print(std::list<EntityInstance *> entities)
         (*iterator)->visit(*this);
     }
     --m_depth;
-    m_ofstream << "</entities>";
+    m_ofstream << "</entities>" << std::endl;
 }
 
 void XmlSyntaxPrinter::visit(const StringInstance * instance)
