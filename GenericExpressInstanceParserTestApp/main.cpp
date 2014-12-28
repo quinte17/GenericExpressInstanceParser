@@ -1,4 +1,5 @@
 #include <QCoreApplication>
+#include <QCommandLineParser>
 
 #include <GenericExpressInstanceParser.h>
 #include <ExpressSyntaxPrinter.h>
@@ -145,6 +146,26 @@ int main(int argc, char *argv[])
 {
     //parsing
     //std::list<geip::EntityInstance*> entities = parseEntitiesInMemory();
+    QCoreApplication app(argc, argv);
+    QCoreApplication::setApplicationName("geip");
+    QCoreApplication::setApplicationVersion("0.1");
+
+    QCommandLineParser parser;
+    parser.setApplicationDescription("super description");
+    parser.addHelpOption();
+    parser.addVersionOption();
+    parser.addPositionalArgument("file", QCoreApplication::translate("main", "The file to open.","inputfile"));
+    parser.addPositionalArgument("file", QCoreApplication::translate("main", "The file to write.","outputfile"));
+
+    QCommandLineOption inputFileOption("i", QCoreApplication::translate("main", "Input File", "inputfile"));
+    parser.addOption(inputFileOption);
+    QCommandLineOption outputFileOption("o", QCoreApplication::translate("main", "Output File"));
+    parser.addOption(outputFileOption);
+
+    parser.process(app);
+    const QStringList args = parser.positionalArguments();
+    std::cerr << args.size() << parser.values(inputFileOption)[0].toLocal8Bit().constData();
+    exit(1);
 
     config::Config lconfig = scanParameters(argc, argv);
 
