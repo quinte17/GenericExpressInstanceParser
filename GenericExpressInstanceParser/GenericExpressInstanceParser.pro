@@ -10,12 +10,12 @@ TARGET = GenericExpressInstanceParser
 TEMPLATE = lib
 CONFIG(debug, debug|release) {
     DESTDIR = ../debug/bin
-    OBJECTS_DIR = ../debug/objects
+    #OBJECTS_DIR = ../debug/objects
 }
 
 CONFIG(release, debug|release) {
     DESTDIR = ../release/bin
-    OBJECTS_DIR = ../release/objects
+    #OBJECTS_DIR = ../release/objects
 }
 
 
@@ -26,7 +26,7 @@ bison.commands = bison -o ${QMAKE_FILE_OUT} ${QMAKE_FILE_IN}
 bison.input = BISON_PARSER_NAME
 bison.output = ExpressInstanceParser.cpp
 bison.variable_out = SOURCES
-bison.depends = ExpressInstanceParser.y
+bison.depends = "$$PWD"/ExpressInstanceParser.y
 bison.CONFIG += target_predeps
 QMAKE_EXTRA_COMPILERS += bison
 
@@ -37,7 +37,7 @@ flex.commands = flex --outfile=${QMAKE_FILE_OUT} -+ ${QMAKE_FILE_IN}
 flex.input = FLEX_SCANNER_NAME
 flex.output = ExpressInstanceScanner.cpp
 flex.variable_out = SOURCES
-flex.depends = ExpressInstanceScanner.l ExpressInstanceScanner.h
+flex.depends = "$$PWD"/ExpressInstanceScanner.l "$$PWD"/ExpressInstanceScanner.h
 flex.CONFIG += target_predeps
 QMAKE_EXTRA_COMPILERS += flex
 

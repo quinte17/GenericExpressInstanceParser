@@ -13,7 +13,7 @@ XmlSyntaxPrinter::XmlSyntaxPrinter(std::ostream & _ofstream)
 
 void XmlSyntaxPrinter::print(std::list<EntityInstance *> entities)
 {
-    m_ofstream << "<entities>";
+    m_ofstream << "<geip:entities>";
     m_ofstream << std::endl;
     ++m_depth;
     std::list<geip::EntityInstance*>::const_iterator iterator = entities.begin();
@@ -21,7 +21,7 @@ void XmlSyntaxPrinter::print(std::list<EntityInstance *> entities)
         (*iterator)->visit(*this);
     }
     --m_depth;
-    m_ofstream << "</entities>";
+    m_ofstream << "</geip:entities>" << std::endl;
 }
 
 void XmlSyntaxPrinter::visit(const StringInstance * instance)

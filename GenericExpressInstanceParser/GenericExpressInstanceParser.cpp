@@ -12,26 +12,53 @@ GenericExpressInstanceParser::GenericExpressInstanceParser()
 {
 }
 
-std::list<EntityInstance*> GenericExpressInstanceParser::parse(const std::string& _string)
+std::list<EntityInstance*> GenericExpressInstanceParser::parse(const std::string& string)
 {
-    std::istringstream inputStream(_string);
+    std::istringstream inputStream(string);
     return parse(&inputStream);
 }
 
-std::list<EntityInstance *> GenericExpressInstanceParser::parse(std::istream* _inputStream)
+std::list<EntityInstance *> GenericExpressInstanceParser::parse(std::istream* inputStream)
 {
     m_entities.clear();
+    resetError();
 
-    geip::ExpressInstanceScanner scanner(_inputStream);
+    geip::ExpressInstanceScanner scanner(inputStream);
     geip::ExpressInstanceParser parser(scanner, *this);
     parser.parse();
 
     return m_entities;
 }
 
-void GenericExpressInstanceParser::addRootEntity(EntityInstance* _entity)
+bool GenericExpressInstanceParser::hasError()
 {
-    m_entities.push_back(_entity);
+    return m_errorCode != 0;
+}
+
+int GenericExpressInstanceParser::errorCode()
+{
+    return m_errorCode;
+}
+
+std::string GenericExpressInstanceParser::errorString()
+{
+    return m_errorString;
+}
+
+void GenericExpressInstanceParser::addRootEntity(EntityInstance* entity)
+{
+    m_entities.push_back(entity);
+}
+
+void GenericExpressInstanceParser::setError(int errorCode, const std::string& errorString)
+{
+    m_errorCode = errorCode;
+    m_errorString = errorString;
+}
+
+void GenericExpressInstanceParser::resetError()
+{
+    setError(0, "");
 }
 
 } //geip

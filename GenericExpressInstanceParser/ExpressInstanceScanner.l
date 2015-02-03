@@ -22,7 +22,7 @@ typedef geip::ExpressInstanceParser::token token;
 
 /****************** Options ******************/
 %option debug
-%option nodefault
+%option default
 %option yyclass="ExpressInstanceScanner"
 %option noyywrap
 %option c++
@@ -31,13 +31,6 @@ typedef geip::ExpressInstanceParser::token token;
 
 /* enables the use of start condition stacks */
 %option stack
-
-/*
-character [a-zA-Z]
-digit [0-9]
-word ({character}|{digit})+
-line \n
-*/
 
 character    [a-zA-Z_]
 digit        [0-9]
@@ -54,8 +47,13 @@ newline      [\n\r]
 assign       [:]=
 comma        [,]
 string       \"(\\.|[^\\"])*\"
+comment      \(\*(.*{newline}?)*\*\)
 
 %%
+
+{comment}      {
+                   //we are not interested in comments
+               }
 
 {string}       {
                     m_yylval->sval = new std::string(yytext);
@@ -123,74 +121,10 @@ string       \"(\\.|[^\\"])*\"
                     //we are not interested in white spaces...
                }
 
-"."            {
-                    //return token::UNKNOWN;
+.              {
+                    std::cerr << "Error: lexical error, bad input character '" << yytext << "'" << std::endl;
+                    m_yylval->sval = new std::string(yytext);
+                    return token::STRING;
                }
 
 %%
-
-//.              {
-//                    std::cout << "scanner: any char: " << yytext;
-//                    return token::CHAR;
-//               }
-/*
- * name           {
-                            yylval->sval = new std::string(yytext);
-                            std::cout << "scanner: name : " << yytext;
-                            return 55;
-                       }
-
-        lbrace         {
-                            std::cout << "scanner: lbrace : " << yytext;
-                            return token::L_BRACE;
-                       }
-
-        rbrace         {
-                            std::cout << "scanner: rbrace : " << yytext;
-                            return token::R_BRACE;
-                       }
-
-        \n             {
-                            return token::NEWLINE;
-                       }*/
-
-/*
-{line} { characterCount++; lineCount++; }
-{word} { printf("word"); this->wordCount++; characterCount += strlen(yytext); }
-. { characterCount++; }
-*/
-/*
-%option noyywrap
-
-%{
-
-
-
-#include "flexer.h"
-
-int num_lines = 0;
-int num_chars = 0;
-
-//flex definitions:
-int yylex(void);
-void yyerror(const char *);
-YY_BUFFER_STATE yy_scan_buffer(const char *base, yy_size_t size);//, yy_size_t size);
-YY_BUFFER_STATE yy_scan_string(const char *str);
-
-%}
-
-
-
-%%
-\n      ++num_lines; ++num_chars;
-.       ++num_chars;
-
-%%
-
-int parseString(const std::string& string)
-{
-    yy_scan_buffer(string.data(), string.size());
-    yylex();
-    return num_lines;
-}
-*/

@@ -15,20 +15,22 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 CONFIG(debug, debug|release) {
     DESTDIR = ../debug/bin
-    OBJECTS_DIR = ../debug/objects
+   # OBJECTS_DIR = ../debug/objects
 }
 
 CONFIG(release, debug|release) {
     DESTDIR = ../release/bin
-    OBJECTS_DIR = ../release/objects
+    #OBJECTS_DIR = ../release/objects
 }
 
 HEADERS += \
-    BenchmarkTestCase.h
+    BenchmarkTestCase.h \
+    ParserTestCase.h
 
 SOURCES += \
     main.cpp \
-    BenchmarkTestCase.cpp
+    BenchmarkTestCase.cpp \
+    ParserTestCase.cpp
 
 #include
 INCLUDEPATH = "../GenericExpressInstanceParser"
