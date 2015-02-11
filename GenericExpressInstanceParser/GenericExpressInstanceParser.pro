@@ -7,6 +7,8 @@
 QT       -= gui
 
 TARGET = GenericExpressInstanceParser
+CONFIG += c++11
+
 TEMPLATE = lib
 CONFIG(debug, debug|release) {
     DESTDIR = ../debug/bin
@@ -17,7 +19,6 @@ CONFIG(release, debug|release) {
     DESTDIR = ../release/bin
     #OBJECTS_DIR = ../release/objects
 }
-
 
 #bison config
 BISON_PARSER_NAME = ExpressInstanceParser.y

@@ -3,3 +3,4 @@
 /release
 /tmp
 /build-*
+*.o

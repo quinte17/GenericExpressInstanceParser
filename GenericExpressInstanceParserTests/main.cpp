@@ -3,6 +3,7 @@
 
 #include "BenchmarkTestCase.h"
 #include "ParserTestCase.h"
+#include "XmlSyntaxPrinterTestCase.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,5 +13,8 @@ int main(int argc, char *argv[])
     //result += QTest::qExec(&benchmarkTestCase, argc, argv);
 
     ParserTestCase parserTestCase;
-    result += QTest::qExec(&parserTestCase, argc, argv);
+    //result += QTest::qExec(&parserTestCase, argc, argv);
+
+    XmlSyntaxPrinterTestCase xmlSyntaxPrinterTestCase;
+    result += QTest::qExec(&xmlSyntaxPrinterTestCase, argc, argv);
 }

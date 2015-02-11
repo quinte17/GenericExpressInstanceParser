@@ -11,6 +11,11 @@ XmlSyntaxPrinter::XmlSyntaxPrinter(std::ostream & _ofstream)
 
 }
 
+XmlSyntaxPrinter::~XmlSyntaxPrinter()
+{
+
+}
+
 void XmlSyntaxPrinter::print(std::list<EntityInstance *> entities)
 {
     m_ofstream << "<geip:entities>";

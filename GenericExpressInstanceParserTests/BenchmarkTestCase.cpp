@@ -9,8 +9,8 @@
 //generic express instance parser (geip) inclues
 #include <GenericExpressInstanceParser.h>
 
-BenchmarkTestCase::BenchmarkTestCase(QObject *parent) :
-    QObject(parent)
+BenchmarkTestCase::BenchmarkTestCase(QObject *parent)
+    : QObject(parent)
 {
 }
 
@@ -18,6 +18,10 @@ BenchmarkTestCase::~BenchmarkTestCase()
 {
 
 }
+
+/*****************************/
+//init and cleanup functions
+/*****************************/
 
 void BenchmarkTestCase::initTestCase()
 {
@@ -38,6 +42,10 @@ void BenchmarkTestCase::cleanup()
 {
 
 }
+
+/*****************************/
+//benchmark functions
+/*****************************/
 
 void BenchmarkTestCase::benchmark_parsing_data()
 {

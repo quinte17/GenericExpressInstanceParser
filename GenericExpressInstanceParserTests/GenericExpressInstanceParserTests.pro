@@ -9,8 +9,9 @@ QT       += testlib
 QT       -= gui
 
 TARGET = GenericExpressInstanceParserTests
-CONFIG   += console
-CONFIG   -= app_bundle
+CONFIG += console
+CONFIG -= app_bundle
+CONFIG += c++11
 
 TEMPLATE = app
 CONFIG(debug, debug|release) {
@@ -25,12 +26,14 @@ CONFIG(release, debug|release) {
 
 HEADERS += \
     BenchmarkTestCase.h \
-    ParserTestCase.h
+    ParserTestCase.h \
+    XmlSyntaxPrinterTestCase.h
 
 SOURCES += \
     main.cpp \
     BenchmarkTestCase.cpp \
-    ParserTestCase.cpp
+    ParserTestCase.cpp \
+    XmlSyntaxPrinterTestCase.cpp
 
 #include
 INCLUDEPATH = "../GenericExpressInstanceParser"

@@ -13,6 +13,11 @@ ExpressSyntaxPrinter::ExpressSyntaxPrinter(std::ostream & _ofstream)
 
 }
 
+ExpressSyntaxPrinter::~ExpressSyntaxPrinter()
+{
+
+}
+
 void ExpressSyntaxPrinter::print(std::list<EntityInstance *> entities)
 {
     std::list<geip::EntityInstance*>::const_iterator iterator = entities.begin();

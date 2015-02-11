@@ -13,17 +13,18 @@ class GENERIC_EXPRESS_INSTANCE_PARSER_SHARED_EXPORT ExpressSyntaxPrinter : publi
 {
 public:
     ExpressSyntaxPrinter(std::ostream& _ofstream);
+    virtual ~ExpressSyntaxPrinter();
 
     void print(std::list<EntityInstance*> entities);
 
     // InstanceVisitor interface
-    virtual void visit(const StringInstance* instance);
-    virtual void visit(const EnumInstance* instance);
-    virtual void visit(const BooleanInstance* instance);
-    virtual void visit(const IntegerInstance* instance);
-    virtual void visit(const RealInstance* instance);
-    virtual void visit(const AttributeInstance* instance);
-    virtual void visit(const EntityInstance* instance);
+    virtual void visit(const StringInstance* instance) override;
+    virtual void visit(const EnumInstance* instance) override;
+    virtual void visit(const BooleanInstance* instance) override;
+    virtual void visit(const IntegerInstance* instance) override;
+    virtual void visit(const RealInstance* instance) override;
+    virtual void visit(const AttributeInstance* instance) override;
+    virtual void visit(const EntityInstance* instance) override;
 
 private:
     virtual void visitChilds(

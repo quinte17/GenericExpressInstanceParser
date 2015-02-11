@@ -57,6 +57,7 @@ private slots:
     void test_errors_data();
     void test_errors();
 
+    //helper functions
 private:
     void deleteEntities(std::list<geip::EntityInstance*>& entities);
     std::vector<geip::EntityInstance*> toVector(std::list<geip::EntityInstance*>& entities);

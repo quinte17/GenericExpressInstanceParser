@@ -7,8 +7,8 @@
 #include <GenericExpressInstanceParser.h>
 #include <ExpressTypes.h>
 
-ParserTestCase::ParserTestCase(QObject* parent) :
-    QObject(parent)
+ParserTestCase::ParserTestCase(QObject* parent)
+    : QObject(parent)
 {
 }
 
@@ -16,6 +16,10 @@ ParserTestCase::~ParserTestCase()
 {
 
 }
+
+/*****************************/
+//init and cleanup functions
+/*****************************/
 
 void ParserTestCase::initTestCase()
 {
@@ -36,6 +40,10 @@ void ParserTestCase::cleanup()
 {
 
 }
+
+/*****************************/
+//test functions
+/*****************************/
 
 void ParserTestCase::test_comments_data()
 {
@@ -382,6 +390,10 @@ void ParserTestCase::test_errors()
     //delete
     deleteEntities(entities);
 }
+
+/*****************************/
+//helper functions
+/*****************************/
 
 void ParserTestCase::deleteEntities(std::list<geip::EntityInstance*>& entities)
 {

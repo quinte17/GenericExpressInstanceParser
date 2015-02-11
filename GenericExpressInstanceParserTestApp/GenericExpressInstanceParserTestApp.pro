@@ -9,18 +9,19 @@ QT       += core testlib
 QT       -= gui
 
 TARGET = GenericExpressInstanceParserTestApp
-CONFIG   += console
-CONFIG   -= app_bundle
+CONFIG += console
+CONFIG -= app_bundle
+CONFIG += c++11
 
 TEMPLATE = app
 CONFIG(debug, debug|release) {
     DESTDIR = ../debug/bin
-    OBJECTS_DIR = ../debug/objects
+    #OBJECTS_DIR = ../debug/objects
 }
 
 CONFIG(release, debug|release) {
     DESTDIR = ../release/bin
-    OBJECTS_DIR = ../release/objects
+    #OBJECTS_DIR = ../release/objects
 }
 
 SOURCES += main.cpp
