@@ -39,30 +39,34 @@ private slots:
     void test_empty_entity();
     void test_multiple_entities_in_one_line();
 
-//    void test_enumType_data();
-//    void test_enumType();
-//    void test_stringType();
-//    void test_booleanType_data();
-//    void test_booleanType();
-//    void test_integerType_data();
-//    void test_integerType();
-//    void test_realType_data();
-//    void test_realType();
+    void test_enumType_data();
+    void test_enumType();
+    void test_stringType_data();
+    void test_stringType();
+    void test_booleanType_data();
+    void test_booleanType();
+    void test_integerType_data();
+    void test_integerType();
+    void test_realType_data();
+    void test_realType();
+    void test_entityType();
 
-//    void test_stringList_data();
-//    void test_stringList();
-//    void test_multiple_attributes_data();
-//    void test_multiple_attributes();
-//    void test_entityList_data();
-//    void test_entityList();
+    void test_emptyList();
+    void test_enumList();
+    void test_stringList();
+    void test_intList();
+    void test_realList();
+    void test_boolList();
 
-//    void test_errors_data();
-//    void test_errors();
+    void test_multiple_attributes();
+    void test_entityList();
+
+    void test_errors_data();
+    void test_errors();
 
     //helper functions
 private:
     void deleteEntities(std::list<geip::EntityInstance*>& entities);
-    //std::vector<geip::EntityInstance*> toVector(std::list<geip::EntityInstance*>& entities);
 
 private:
     QSharedPointer<geip::GenericExpressInstanceParser> m_parser;

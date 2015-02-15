@@ -6,6 +6,7 @@
 
 #include "GenericExpressInstanceParser_Global.h"
 #include "ExpressInstanceVisitor.h"
+#include "ExpressTypes.h"
 
 namespace geip {
 
@@ -27,8 +28,9 @@ public:
     virtual void visit(const EntityInstance* instance) override;
 
 private:
-    virtual void visitChilds(const ExpressInstance* instance, const std::string& _tag);
+    virtual void visitChilds(const ExpressInstance* instance, bool isAttribute);
     void printMargin(void);
+    std::string typeToString(ExpressInstance::InstanceType type);
 
 private:
     int m_depth;

@@ -7,10 +7,7 @@ EnumType(type1 := USER, type2 := SYSTEM)
 EnumType(type1 := USER, type2 := Entity())
 ListType(emptyList := [])
 ListType(elements:= [Entity1(), Entity2()])
-Pair(
-    key:="591",
-    value:="1900"
-)
+
 Error (number:=24973)
 Error (number:=+24973)
 Error (number:=-24973)
@@ -18,6 +15,11 @@ Error (number:=24973.44)
 Error (number:=-123.45)
 Error (number:=+123.45)
 Min (min:=3.45)
+
 StringType(type:="USER")
+Pair(
+    key:="591",
+    value:="1900"
+)
 StringList (elements:= ["element 1","element 2"])
 User(name:="aaä")

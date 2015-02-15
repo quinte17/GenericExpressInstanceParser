@@ -18,84 +18,113 @@ XmlSyntaxPrinter::~XmlSyntaxPrinter()
 
 void XmlSyntaxPrinter::print(std::list<EntityInstance *> entities)
 {
-    m_ofstream << "<geip:entities>";
+    m_ofstream << "<geip:entities xmlns:geip=\"https://github.com/flo2k/GenericExpressInstanceParser\">";
     m_ofstream << std::endl;
-    ++m_depth;
+
     std::list<geip::EntityInstance*>::const_iterator iterator = entities.begin();
     for(; iterator != entities.end(); ++iterator){
         (*iterator)->visit(*this);
     }
-    --m_depth;
-    m_ofstream << "</geip:entities>" << std::endl;
+
+    m_ofstream << "</geip:entities>";
+    m_ofstream << std::endl;
 }
 
 void XmlSyntaxPrinter::visit(const StringInstance * instance)
 {
-    printMargin();m_ofstream << "<string>" << instance->value() << "</string>";
+    m_ofstream << "<![CDATA[" << "\"" << instance->value() << "\""  << "]]>";
 }
 
 void XmlSyntaxPrinter::visit(const EnumInstance * instance)
 {
-    printMargin();m_ofstream << "<enum>" << instance->value() << "</enum>";
+    m_ofstream << instance->value();
 }
 
 void XmlSyntaxPrinter::visit(const BooleanInstance * instance)
 {
-    printMargin();m_ofstream << "<bool>" << instance->value() << "</bool>";
+    m_ofstream << instance->value();
 }
 
 void XmlSyntaxPrinter::visit(const IntegerInstance * instance)
 {
-    printMargin();m_ofstream << "<int>" << instance->value() << "</int>";
+    m_ofstream << instance->value();
 }
 
 void XmlSyntaxPrinter::visit(const RealInstance * instance)
 {
-    printMargin();m_ofstream << "<real>" << instance->value() << "</real>";
+    m_ofstream << instance->value();
 }
 
 void XmlSyntaxPrinter::visit(const AttributeInstance * instance)
 {
-    printMargin();m_ofstream << "<attribute name=\"" << instance->name() << "\">";
-
-    ++m_depth;
     switch (instance->attributeType()) {
     case AttributeInstance::SingleAttribute:
-        m_ofstream << std::endl;
+        printMargin();
+        m_ofstream << "<" << instance->name()
+                   << " geip:type=\""
+                   << typeToString(instance->childs()->front()->type())
+                   << "\">";
+
+        if(instance->childs()->front()->type() == ExpressInstance::EntityType){
+            m_ofstream << std::endl;
+        }
+
         instance->childs()->front()->visit(*this);
+
+        if(instance->childs()->front()->type() == ExpressInstance::EntityType){
+            printMargin();
+        }
+
+        m_ofstream << "</" << instance->name() << ">";
         break;
     case AttributeInstance::MultipleAttributes:{
-        visitChilds(instance, "instances");
+        printMargin();
+        m_ofstream << "<" << instance->name()
+                   << " geip:type=\"list\">";
+
+        visitChilds(instance, true);
+        m_ofstream << std::endl;
+        printMargin();
+        m_ofstream << "</" << instance->name() << ">";
         break;
     }
     }
-    --m_depth;
-
-
-    m_ofstream << std::endl;
-    printMargin();m_ofstream << "</attribute>";
 }
 
-void XmlSyntaxPrinter::visitChilds(const ExpressInstance * instance, const std::string & _tag)
+void XmlSyntaxPrinter::visitChilds(const ExpressInstance * instance, bool isAttribute)
 {
     if(!instance->childs()){
         return;
     }
 
-    m_ofstream << std::endl;
-    printMargin();m_ofstream << "<" << _tag << ">";
-
     ++m_depth;
     std::list<ExpressInstance*>::const_iterator iterator = instance->childs()->begin();
     for(int i = 0; iterator != instance->childs()->end(); ++iterator, ++i){
         m_ofstream << std::endl;
-        (*iterator)->visit(*this);
-    }
-    //m_ofstream << std::endl;
-    --m_depth;
 
-    m_ofstream << std::endl;
-    printMargin();m_ofstream << "</" << _tag << ">";
+        if(isAttribute){
+            printMargin();
+            m_ofstream << "<geip:entry"
+                       << " geip:type=\""
+                       << typeToString((*iterator)->type())
+                       << "\">";
+
+            if((*iterator)->type() == ExpressInstance::EntityType){
+                m_ofstream << std::endl;
+            }
+        }
+
+        (*iterator)->visit(*this);
+
+        if(isAttribute){
+            if((*iterator)->type() == ExpressInstance::EntityType){
+                printMargin();
+            }
+
+            m_ofstream << "</geip:entry>";
+        }
+    }
+    --m_depth;
 }
 
 void XmlSyntaxPrinter::printMargin()
@@ -105,14 +134,46 @@ void XmlSyntaxPrinter::printMargin()
     }
 }
 
+std::string XmlSyntaxPrinter::typeToString(ExpressInstance::InstanceType type)
+{
+    std::string typeAsString;
+
+    switch (type) {
+    case ExpressInstance::InstanceType::StringType:
+        typeAsString = "string";
+        break;
+    case ExpressInstance::InstanceType::EnumType:
+        typeAsString = "enum";
+        break;
+    case ExpressInstance::InstanceType::BooleanType:
+        typeAsString = "bool";
+        break;
+    case ExpressInstance::InstanceType::IntegerType:
+        typeAsString = "int";
+        break;
+    case ExpressInstance::InstanceType::RealType:
+        typeAsString = "real";
+        break;
+    case ExpressInstance::InstanceType::AttributeType:
+        typeAsString = "attribute";
+        break;
+    case ExpressInstance::InstanceType::EntityType:
+        typeAsString = "entity";
+        break;
+    }
+
+    return typeAsString;
+}
+
 void XmlSyntaxPrinter::visit(const EntityInstance * instance)
 {
-    printMargin();m_ofstream << "<" << instance->name() << ">";
+    //start tag
     ++m_depth;
-    visitChilds(instance, "attributes");
-    --m_depth;
+    printMargin();m_ofstream << "<" << instance->name() << ">";
+    visitChilds(instance, false);
     m_ofstream << std::endl;
     printMargin();m_ofstream << "</" << instance->name() << ">";
+    --m_depth;
     m_ofstream << std::endl;
 }
 
